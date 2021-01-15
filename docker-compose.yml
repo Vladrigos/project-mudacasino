@@ -1,0 +1,28 @@
+version: '3'
+services:
+  casino-nginx:
+    build:
+      context: ./casino/docker/development
+      dockerfile: nginx.docker
+    volumes:
+      - ./casino:/app
+    depends_on:
+      - casino-php-fpm
+    ports:
+      - "8080:80"
+  casino-php-fpm:
+    build:
+      context: ./casino/docker/development
+      dockerfile: php-fpm.docker
+    volumes:
+      - ./casino:/app
+  casino-php-cli:
+    build:
+      context: ./casino/docker/development
+      dockerfile: php-cli.docker
+    volumes:
+      - ./casino:/app
+      - composer:/root/.composer/cache
+
+volumes:
+  composer:
