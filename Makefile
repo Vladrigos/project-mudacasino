@@ -1,5 +1,7 @@
 up: docker-up
 init: docker-down-clear docker-pull docker-build docker-up casino-init
+test: casino-test
+casino-init: casino-composer-install
 
 docker-up:
 	docker-compose up -d
@@ -16,7 +18,8 @@ docker-pull:
 docker-build:
 	docker-compose build
 
-casino-init: casino-composer-install
+casino-test:
+	docker-compose run --rm casino-php-cli php vendor/bin/phpunit
 
 casino-composer-install:
 	docker-compose run --rm casino-php-cli composer install
