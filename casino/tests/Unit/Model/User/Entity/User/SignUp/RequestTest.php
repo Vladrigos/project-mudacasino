@@ -12,16 +12,11 @@ class RequestTest extends TestCase
 {
     public function testSuccess()
     {
-        $user = new User(
-            $id = Id::next(),
-            $date = new \DateTimeImmutable(),
-        );
-
-        $user->signUpByEmail(
+        $user = (new UserBuilder($id = Id::next(), $date = new \DateTimeImmutable(),))->viaEmail(
             $email = new Email('test@mail.test'),
             $hash = 'hash',
             $token = 'token',
-        );
+        )->build();
 
         $this->assertTrue($user->isWait());
         $this->assertFalse($user->isActive());
@@ -31,24 +26,26 @@ class RequestTest extends TestCase
         $this->assertEquals($email, $user->getEmail());
         $this->assertEquals($hash, $user->getPasswordHash());
         $this->assertEquals($token, $user->getConfirmToken());
+
+        $this->assertTrue($user->getRole()->isUser());
     }
 
-    public function testAlready()
-    {
-        $user = (new UserBuilder())
-            ->viaEmail(
-                $email = new Email('test@mail.test'),
-                $hash = 'hash',
-                $token = 'token'
-            )
-            ->build();
-
-        self::expectExceptionMessage('User already signed up');
-
-        $user->signUpByEmail(
-            $email,
-            $hash,
-            $token,
-        );
-    }
+//    public function testAlready()
+//    {
+//        $user = (new UserBuilder())
+//            ->viaEmail(
+//                $email = new Email('test@mail.test'),
+//                $hash = 'hash',
+//                $token = 'token'
+//            )
+//            ->build();
+//
+//        self::expectExceptionMessage('User already signed up');
+//
+//        $user->signUpByEmail(
+//            $email,
+//            $hash,
+//            $token,
+//        );
+//    }
 }

@@ -24,15 +24,15 @@ class AuthTest extends TestCase
         self::assertEquals($identity, $first->getIdentity());
     }
 
-    public function testAlready(): void
-    {
-        $user = (new UserBuilder())->viaNetwork($network = 'vk',$identity = '0000001')->build();
-
-        self::expectExceptionMessage('User is already signed up');
-
-        $user->signUpByNetwork(
-            $network,
-            $identity
-        );
-    }
+//    public function testAlready(): void
+//    {
+//        $user = (new UserBuilder())->viaNetwork($network = 'vk',$identity = '0000001')->build();
+//
+//        self::expectExceptionMessage('User is already signed up');
+//
+//        $user->signUpByNetwork(
+//            $network,
+//            $identity
+//        );
+//    }
 }

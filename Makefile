@@ -1,7 +1,7 @@
 up: docker-up
 init: docker-down-clear docker-pull docker-build docker-up casino-init
 test: casino-test
-casino-init: casino-composer-install
+casino-init: casino-composer-install casino-wait-db casino-migrations
 
 docker-up:
 	docker-compose up -d
@@ -23,6 +23,12 @@ casino-test:
 
 casino-composer-install:
 	docker-compose run --rm casino-php-cli composer install
+
+casino-wait-db:
+	until docker-compose exec -T casino-postgres pg_isready --timeout 0 --dbname=app ; do sleep 1 ; done
+
+casino-migrations:
+	docker-compose run --rm casino-php-cli php bin/console doctrine:migrations:migrate --no-interaction
 
 cli:
 	docker-compose run --rm casino-php-cli php bin/app.php

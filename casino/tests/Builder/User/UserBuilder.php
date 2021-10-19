@@ -5,6 +5,7 @@ namespace App\Tests\Builder\User;
 use App\Model\User\Entity\User\Email;
 use App\Model\User\Entity\User\Id;
 use App\Model\User\Entity\User\User;
+use Ramsey\Uuid\Uuid;
 
 class UserBuilder
 {
@@ -20,10 +21,10 @@ class UserBuilder
 
     private $confirmed;
 
-    public function __construct()
+    public function __construct(Id $id = null, \DateTimeImmutable $date = null)
     {
-        $this->id = Id::next();
-        $this->date = new \DateTimeImmutable();
+        $this->id = $id ?? Id::next();
+        $this->date = $date ?? new \DateTimeImmutable();
     }
 
     public function viaEmail(Email $email = null, string $hash = null, string $token = null): self
@@ -54,13 +55,15 @@ class UserBuilder
 
     public function build(): User
     {
-        $user = new User(
-            $this->id,
-            $this->date
-        );
+//        $user = new User(
+//            $this->id,
+//            $this->date
+//        );
 
         if ($this->email) {
-            $user->signUpByEmail(
+            $user = User::signUpByEmail(
+                $this->id,
+                $this->date,
                 $this->email,
                 $this->hash,
                 $this->token,
@@ -72,7 +75,9 @@ class UserBuilder
         }
 
         if ($this->network) {
-            $user->signUpByNetwork(
+            $user = User::signUpByNetwork(
+                $this->id,
+                $this->date,
                 $this->network,
                 $this->identity,
             );
