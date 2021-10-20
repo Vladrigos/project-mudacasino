@@ -1,11 +1,9 @@
 <?php
 
-
 namespace App\Model\User\UseCase\Reset\Reset;
 
-
 use App\Model\User\Entity\User\UserRepository;
-use App\Model\User\Flusher;
+use App\Model\Flusher;
 use App\Model\User\Service\PasswordHasher;
 
 class Handler

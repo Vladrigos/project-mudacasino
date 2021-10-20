@@ -3,8 +3,8 @@
 namespace App\Model\User\Service;
 
 use App\Model\User\Entity\User\Email;
-use http\Exception\RuntimeException;
-use Symfony\Component\Mailer\Mailer;
+use RuntimeException;
+use Swift_Message;
 use Twig\Environment;
 
 class ConfirmTokenSender
@@ -13,17 +13,16 @@ class ConfirmTokenSender
     private $twig;
     private $from;
 
-    public function __construct(\Swift_Mailer $mailer, Environment $twig, array $from)
+    public function __construct(\Swift_Mailer $mailer, Environment $twig)
     {
         $this->mailer = $mailer;
         $this->twig = $twig;
-        $this->from = $from;
     }
 
     public function send(Email $email, string $token): void
     {
-        $message = (new \Swift_Message('Sign Up Confirmation'))
-            ->setFrom($this->from)
+        $message = (new Swift_Message('Sign Up Confirmation'))
+//            ->setFrom($this->from)
             ->setTo($email->getValue())
             ->setBody($this->twig->render('mail/user/signup.html.twig', [
                 'token' => $token,

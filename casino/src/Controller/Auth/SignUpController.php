@@ -2,7 +2,7 @@
 
 namespace App\Controller\Auth;
 
-use App\Model\User\UseCase\SignUp;
+use  App\Model\User\UseCase\SignUp;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
