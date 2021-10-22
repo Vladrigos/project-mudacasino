@@ -6,10 +6,13 @@ security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         # used to reload user from session & other features (e.g. switch_user)
-        app_user_provider:
-            entity:
-                class: App\Entity\User
-                property: email
+#        app_user_provider:
+#            entity:
+#                class: App\Entity\User
+#                property: email
+#        in_memory: { memory: ~ }
+        fetcher:
+            id: App\Security\UserProvider
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -17,10 +20,13 @@ security:
         main:
             anonymous: true
             lazy: true
+            user_checker: App\Security\UserChecker
             provider: app_user_provider
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
+#            ???
+            form_login: true
             logout:
                 path: app_logout
                 # where to redirect after logout
@@ -36,8 +42,17 @@ security:
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
+#Иерархия ролей, указываем что администратор тоже является юзером(без этого не пустит под админом куда может зайти юзер
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_USER]
+
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/signup, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/reset, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: ROLE_USER }
+#        - { path: ^/, roles: AUTHENTICATED_FULLY }
 #         - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }

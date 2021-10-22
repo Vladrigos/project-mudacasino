@@ -12,7 +12,7 @@ class ResetTokenizerFactory
     /**
      * @throws \Exception
      */
-    public function create(string $interval): ResetTokenizer
+    public static function create(string $interval): ResetTokenizer
     {
         return new ResetTokenizer(new DateInterval($interval));
     }

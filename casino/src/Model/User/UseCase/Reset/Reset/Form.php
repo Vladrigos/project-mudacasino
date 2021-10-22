@@ -2,8 +2,8 @@
 
 namespace App\Model\User\UseCase\Reset\Reset;
 
-use App\Model\User\Entity\User\EmailType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

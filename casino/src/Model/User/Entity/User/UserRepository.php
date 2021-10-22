@@ -3,14 +3,13 @@
 namespace App\Model\User\Entity\User;
 
 use App\Model\EntityNotFoundException;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ObjectRepository;
 
 class UserRepository
 {
-    private EntityManager $entityManager;
+    private EntityManagerInterface $entityManager;
     private EntityRepository $repository;
 
     public function __construct(EntityManagerInterface $entityManager)
@@ -36,6 +35,9 @@ class UserRepository
         $this->entityManager->persist($user);
     }
 
+    /**
+     * @return User|object|null
+     */
     public function findByConfirmToken(string $token): ?User
     {
         return $this->repository->findOneBy(['confirmToken' => $token]);
@@ -52,15 +54,21 @@ class UserRepository
             ->getQuery()->getSingleScalarResult() > 0;
     }
 
+    /**
+     * @return User|object|null
+     */
     public function getByEmail(Email $email): User
     {
         if (!$user = $this->repository->findOneBy(['email' => $email->getValue()])) {
             throw new EntityNotFoundException('User was not found');
         }
 
-        return $this->repository->findBy(['email' => $email->getValue()]);
+        return $email;
     }
 
+    /**
+     * @return User|object|null
+     */
     public function get(Id $id): User
     {
         if (!$user = $this->repository->find($id->getValue())) {
@@ -70,6 +78,9 @@ class UserRepository
         return $user;
     }
 
+    /**
+     * @return User|object|null
+     */
     public function findByResetToken(ResetToken $token): ?User
     {
         return $this->repository->findOneBy(['resetToken.token' => $token]);
