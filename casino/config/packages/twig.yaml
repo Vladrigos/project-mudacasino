@@ -1,3 +1,4 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+#   Шаблон бутстрап 5 для форм, формы будут генериться по нему
     form_themes: ['bootstrap_4_layout.html.twig']

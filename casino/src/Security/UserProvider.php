@@ -37,7 +37,7 @@ class UserProvider implements UserProviderInterface
 
     public function supportsClass(string $class)
     {
-        return $class instanceof UserIdentity;
+        return $class === UserIdentity::class;
     }
 
     private function loadUser($username): AuthView

@@ -30,6 +30,9 @@ casino-wait-db:
 casino-migrations:
 	docker-compose run --rm casino-php-cli php bin/console doctrine:migrations:migrate --no-interaction
 
+casino-fixtures:
+	docker-compose run --rm casino-php-cli php bin/console doctrine:fixtures:load --no-interaction
+
 cli:
 	docker-compose run --rm casino-php-cli php bin/app.php
 

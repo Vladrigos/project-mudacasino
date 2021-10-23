@@ -40,7 +40,7 @@ class UserIdentity implements UserInterface, EquatableInterface
 
     public function getPassword()
     {
-        // TODO: Implement getPassword() method.
+        return $this->password;
     }
 
     public function getSalt(): ?string
@@ -50,7 +50,7 @@ class UserIdentity implements UserInterface, EquatableInterface
 
     public function getUsername()
     {
-        // TODO: Implement getUsername() method.
+        return $this->username;
     }
 
     public function eraseCredentials()
